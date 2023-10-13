@@ -2,25 +2,21 @@
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
+
+// Define global variables
 const itemsPerPage = 9;
 const paginationContainer = document.querySelector(
   "div.pagination ul.link-list"
 );
 const studentList = document.querySelector("ul.student-list");
-
 const seachInput = document.querySelector("#search");
 const searchbutton = seachInput.parentNode.querySelector("button");
 
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
+/**
+ * Creates student list items
+ * @param list  array of student object
+ * @param page  page number to show
+ */
 function showPage(list, page) {
   const startIndex = itemsPerPage * page - itemsPerPage;
   const endIndex = itemsPerPage * page - 1;
@@ -48,16 +44,16 @@ function showPage(list, page) {
   }
 }
 
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
+/**
+ * Creates pagination buttons
+ * @param list array of student object
+ */
 function addPagination(list) {
-  const numberOfButtons = Math.ceil(list.length / itemsPerPage);
-
   paginationContainer.innerHTML = "";
 
   if (list.length > itemsPerPage) {
+    const numberOfButtons = Math.ceil(list.length / itemsPerPage);
+
     for (let i = 1; i <= numberOfButtons; i++) {
       const buttonHtml = `<li>
       <button type="button">${i}</button>
@@ -78,6 +74,9 @@ function addPagination(list) {
   }
 }
 
+/**
+ * Searches student by name
+ */
 function search() {
   const seachText = seachInput.value.trim().toLowerCase();
   const filteredData = data.filter((student) => {
@@ -91,9 +90,10 @@ function search() {
   addPagination(filteredData);
 }
 
+// Add event listeners to search button and search input
 searchbutton.addEventListener("click", search);
 seachInput.addEventListener("keyup", search);
 
-// Call functions
+// Call functions on page load
 showPage(data, 1);
 addPagination(data);
