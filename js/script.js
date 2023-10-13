@@ -9,8 +9,7 @@ const paginationContainer = document.querySelector(
   "div.pagination ul.link-list"
 );
 const studentList = document.querySelector("ul.student-list");
-const seachInput = document.querySelector("#search");
-const searchbutton = seachInput.parentNode.querySelector("button");
+const headerContainer = document.querySelector("header");
 
 /**
  * Creates student list items
@@ -74,10 +73,21 @@ function addPagination(list) {
   }
 }
 
+function createSeachControls() {
+  const searchControls = `<label for="search" class="student-search">
+   <span>Search by name</span>
+   <input id="search" placeholder="Search by name...">
+   <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+ </label>`;
+  headerContainer.insertAdjacentHTML("beforeend", searchControls);
+}
+
 /**
  * Searches student by name
  */
 function search() {
+  const seachInput = document.querySelector("#search");
+  const searchbutton = seachInput.parentNode.querySelector("button");
   const seachText = seachInput.value.trim().toLowerCase();
   const filteredData = data.filter((student) => {
     return (
@@ -90,10 +100,14 @@ function search() {
   addPagination(filteredData);
 }
 
-// Add event listeners to search button and search input
-searchbutton.addEventListener("click", search);
-seachInput.addEventListener("keyup", search);
+function setSeachEventListeners() {
+  const seachInput = document.querySelector("#search");
+  const searchButton = seachInput.parentNode.querySelector("button");
+  searchButton.addEventListener("click", search);
+}
 
 // Call functions on page load
+createSeachControls();
+setSeachEventListeners();
 showPage(data, 1);
 addPagination(data);
